@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  <link rel="stylesheet" href="style.css">
+  
+  <title>Frontend Mentor | Age calculator app</title>
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <style>
+    .attribution { font-size: 11px; text-align: center; }
+    .attribution a { color: hsl(228, 45%, 44%); }
+  </style>
+</head>
+<body>
+
+  <main>
+    <div class="box">
+      <div class="box-input">
+        <div class="label-box" >
+          <label for="day" id="l1">DAY</label>
+          <input type="number" placeholder="DD"  name="day" id="day"  class="input">
+        </div>
+        <div class="label-box">
+          <label for="Month" id="l2">MONTH</label>
+          <input type="number"  placeholder="MM" name="Month" id="Month" class="input">
+        </div class="label-box">
+        <div class="label-box">
+          <label for="Year" id="l3"> YEAR</label>
+          <input type="number" placeholder="YYYY" name="Year" id="Year" class="input">
+        </div>
+        
+      </div>
+
+      <div class="box-button">
+        <div class="linha"></div>
+        <button onclick="resultado()"> <img src="icon-arrow.svg" alt="icon-arrow"> </button>
+      </div>
+      
+      <div class="box-cont">
+
+        <div class="cont">
+          <h1 class="text" id="cont-year">--</h1> <h1 class="label-text">years</h1>
+        </div>
+        <div class="cont">
+          <h1 class="text" id="cont-month">--</h1> <h1 class="label-text">months</h1>
+        </div>
+        <div class="cont">
+          <h1 class="text" id="cont-day">--</h1> <h1 class="label-text">days</h1>
+        </div>
+      </div>
+
+
+    </div>
+  </main>
+
+  <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by <a href="#">Your Name Here</a>.
+  </div>
+
+  <script>
+    
+        function calcularIdade(dataNascimento) {
+      // Converte a data de nascimento para um objeto Date
+      let dataNasc = new Date(dataNascimento);
+
+      // Obtém a data atual
+      let dataAtual = new Date();
+
+      // Calcula a diferença em milissegundos entre as duas datas
+      let diferenca = dataAtual - dataNasc;
+
+      // Converte a diferença em anos
+      let idadeAnos = Math.floor(diferenca / (1000 * 60 * 60 * 24 * 365.25));
+
+      // Calcula a diferença em meses
+      let idadeMeses = Math.floor(diferenca / (1000 * 60 * 60 * 24 * 30.436875)) % 12;
+
+      // Calcula a diferença em dias
+      let idadeDias = Math.floor(diferenca / (1000 * 60 * 60 * 24)) % 30.436875;
+
+      return {
+        anos: idadeAnos,
+        meses: idadeMeses,
+        dias: idadeDias
+      };
+    }
+    function valid(){
+
+        var dL = window.document.getElementById('l1')
+        var dI = window.document.getElementById('day')
+        dL.style.color = 'hsl(0, 1%, 44%)'
+        dI.style.border = '1px solid hsla(0, 1%, 44%, 0.747)'
+
+        var mL = window.document.getElementById('l2')
+        var mI = window.document.getElementById('Month')
+        mL.style.color = 'hsl(0, 1%, 44%)'
+        mI.style.border = '1px solid hsla(0, 1%, 44%, 0.747)'
+
+        var yL = window.document.getElementById('l3')
+        var yI = window.document.getElementById('Year')
+        yL.style.color = 'hsl(0, 1%, 44%)'
+        yI.style.border = '1px solid hsla(0, 1%, 44%, 0.747)'
+
+    }
+    function erro(){
+        var dL = window.document.getElementById('l1')
+        var dI = window.document.getElementById('day')
+        dL.style.color = 'hsl(0, 100%, 67%)'
+        dI.style.border = '1px solid hsl(0, 100%, 67%)'
+
+        var mL = window.document.getElementById('l2')
+        var mI = window.document.getElementById('Month')
+        mL.style.color = 'hsl(0, 100%, 67%)'
+        mI.style.border = '1px solid hsl(0, 100%, 67%)'
+
+        var yL = window.document.getElementById('l3')
+        var yI = window.document.getElementById('Year')
+        yL.style.color = 'hsl(0, 100%, 67%)'
+        yI.style.border = '1px solid hsl(0, 100%, 67%)'
+    }
+
+    function resultado(){
+      var date = new Date();
+      //pegando entradas
+      var dia = window.document.querySelector('input#day')
+      var mes = window.document.querySelector('input#Month')
+      var ano = window.document.querySelector('input#Year')
+
+      //condição para valores vazios
+      if(dia.value === "" || mes.value === "" || ano.value === ""){
+          erro();
+     
+      }
+      //erros de entrada padrão
+      else if( Number(mes.value) > 12 || Number(mes.value) < 1 || Number(ano.value) > date.getFullYear() || Number(dia.value) > 31 || Number(dia.value) < 1 ){ 
+          erro();
+      }
+      else if(Number(mes.value) % 2 == 0 && Number(dia.value) > 30){
+          erro();
+      }
+      else{
+
+          var dataNasc = `${ano.value}-${mes.value}-${dia.value}`
+
+          let idade = calcularIdade(dataNasc);
+
+
+          //dias formatados
+          let diasFormatado = idade.dias.toFixed(0);
+
+          var d = window.document.getElementById('cont-day')
+          d.innerHTML = `${Number(diasFormatado)}`
+
+          var m =  window.document.getElementById('cont-month')
+          m.innerHTML = `${idade.meses}`
+
+
+          var y =  window.document.getElementById('cont-year')
+          y.innerHTML = `${idade.anos}`
+
+          valid();
+
+          }
+      }
+      
+  </script>
+</body>
+</html>
