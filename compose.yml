@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ./index.html:/usr/local/apache2/htdocs/index.html
+      - ./style.css:/usr/local/apache2/htdocs/style.css
